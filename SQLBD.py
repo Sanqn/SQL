@@ -187,25 +187,41 @@ connection = create_connection("localhost", "admin", "root", "new_app")
 # execute_query_comments(connection)
 
 
-def execute_query_likes(connection):
+# def execute_query_likes(connection):
+#     cursor = connection.cursor()
+#     try:
+#         sql = "INSERT INTO likes (user_id, post_id) VALUES ( %s, %s )"
+#         val = [
+#             (1, 6),
+#             (2, 3),
+#             (1, 5),
+#             (5, 4),
+#             (2, 4),
+#             (4, 2),
+#             (3, 6)
+#         ]
+#
+#         cursor.executemany(sql, val)
+#         connection.commit()
+#         print("Query executed successfully")
+#     except Error as e:
+#         print(f"The error '{e}' occurred")
+#
+#
+# execute_query_likes(connection)
+
+def execute_query_read_table(connection, query):
     cursor = connection.cursor()
     try:
-        sql = "INSERT INTO likes (user_id, post_id) VALUES ( %s, %s )"
-        val = [
-            (1, 6),
-            (2, 3),
-            (1, 5),
-            (5, 4),
-            (2, 4),
-            (4, 2),
-            (3, 6)
-        ]
-
-        cursor.executemany(sql, val)
-        connection.commit()
-        print("Query executed successfully")
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
     except Error as e:
         print(f"The error '{e}' occurred")
 
 
-execute_query_likes(connection)
+reads_users = "SELECT * FROM users"
+users = execute_query_read_table(connection, reads_users)
+
+for user in users:
+    print(user)
