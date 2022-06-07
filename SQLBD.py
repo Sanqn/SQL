@@ -226,14 +226,14 @@ connection = create_connection("localhost", "admin", "root", "new_app")
 # for user in users:
 #     print(user)
 
-def execute_query_read_table(connection, query):
-    cursor = connection.cursor()
-    try:
-        cursor.execute(query)
-        result = cursor.fetchall()
-        return result
-    except Error as e:
-        print(f"The error '{e}' occurred")
+# def execute_query_read_table(connection, query):
+#     cursor = connection.cursor()
+#     try:
+#         cursor.execute(query)
+#         result = cursor.fetchall()
+#         return result
+#     except Error as e:
+#         print(f"The error '{e}' occurred")
 
 
 # reads_users = """
@@ -253,15 +253,41 @@ def execute_query_read_table(connection, query):
 #   likes.post_id
 # """
 
-reads_users = """
-SELECT
-  users.name,
-  posts.description
-FROM
-  users
-INNER JOIN posts ON users.id = posts.user_id
-"""
-users = execute_query_read_table(connection, reads_users)
+# reads_users = """
+# SELECT
+#   users.name,
+#   posts.description
+# FROM
+#   users
+# INNER JOIN posts ON users.id = posts.user_id
+# """
+# users = execute_query_read_table(connection, reads_users)
+#
+# for user in users:
+#     print(user)
 
-for user in users:
-    print(user)
+
+# def execute_query_update(connection):
+#     cursor = connection.cursor()
+#     try:
+#         cursor.execute("UPDATE posts SET description = 'Wow it is amazing picture on the wall' WHERE id = 2")
+#         connection.commit()
+#     except Error as e:
+#         print(f"The error '{e}' occurred")
+#
+# execute_query_update(connection)
+
+def execute_query_delete(connection):
+    cursor = connection.cursor()
+    try:
+        cursor.execute("DELETE FROM likes WHERE id = 2")
+        connection.commit()
+    except Error as e:
+        print(f"The error '{e}' occurred")
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+            print("Connection with MySQL closed")
+
+execute_query_delete(connection)

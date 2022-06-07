@@ -144,17 +144,17 @@ connect = create_connection("sqlsm.sqlite3")
 #     print(user, '===========')
 
 
-def execute_select_join(connection, query):
-    cursor = connection.cursor()
-
-    try:
-        cursor.execute(query)
-        result = cursor.fetchall()
-        column_names = [desk[0] for desk in cursor.description]
-        print(column_names)
-        return result
-    except Error as e:
-        print(f'The error {e} occurred')
+# def execute_select_join(connection, query):
+#     cursor = connection.cursor()
+#
+#     try:
+#         cursor.execute(query)
+#         result = cursor.fetchall()
+#         column_names = [desk[0] for desk in cursor.description]
+#         print(column_names)
+#         return result
+#     except Error as e:
+#         print(f'The error {e} occurred')
 
 
 # execute_tables_users = """
@@ -182,24 +182,66 @@ def execute_select_join(connection, query):
 # INNER JOIN comments ON users.id = comments.user_id
 # """
 
-execute_tables_users_comment = """
-SELECT
-  users.name,
-  users.age,
-  description as Post,
-  COUNT(likes.id) as Likes
-FROM
-  likes,
-  posts,
-  users
-WHERE
-  users.id = posts.user_id
-  AND   
-  posts.id = likes.post_id
-GROUP BY
-  likes.post_id
-"""
-result_user = execute_select_join(connect, execute_tables_users_comment)
+# execute_tables_users_comment = """
+# SELECT
+#   users.name,
+#   users.age,
+#   description as Post,
+#   COUNT(likes.id) as Likes
+# FROM
+#   likes,
+#   posts,
+#   users
+# WHERE
+#   users.id = posts.user_id
+#   AND
+#   posts.id = likes.post_id
+# GROUP BY
+#   users.name,
+#   users.age,
+#   posts.description,
+#   likes.post_id
+# """
+# result_user = execute_select_join(connect, execute_tables_users_comment)
+#
+# for user in result_user:
+#     print(user, '===========')
 
-for user in result_user:
-    print(user, '===========')
+
+# def execute_select_join(connection):
+#     cursor = connection.cursor()
+#
+#     try:
+#         cursor.execute("SELECT description FROM posts WHERE id = 2")
+#         result = cursor.fetchall()
+#         return result
+#     except Error as e:
+#         print(f'The error {e} occurred')
+#
+# print(execute_select_join(connect))
+#
+# def execute_select_update(connection):
+#     cursor = connection.cursor()
+#
+#     try:
+#         cursor.execute("UPDATE posts SET description = 'Wow it is amazing picture on the wall' WHERE id = 2")
+#         connection.commit()
+#     except Error as e:
+#         print(f'The error {e} occurred')
+#
+# execute_select_update(connect)
+
+def execute_query_delete(connection):
+    cursor = connection.cursor()
+    try:
+        cursor.execute("DELETE FROM likes WHERE id = 2")
+        connection.commit()
+    except Error as e:
+        print(f"The error '{e}' occurred")
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+            print("Connection with SQLite closed")
+
+execute_query_delete(connect)

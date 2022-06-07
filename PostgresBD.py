@@ -224,18 +224,88 @@ print(con, '---------------------------------')
 #
 # execute_query_likes(con)
 
-def execute_query_read_table(connection, query):
+# def execute_query_read_table(connection, query):
+#     cursor = connection.cursor()
+#     try:
+#         cursor.execute(query)
+#         result = cursor.fetchall()
+#         return result
+#     except OperationalError as e:
+#         print(f"The error '{e}' occurred")
+#
+#
+# reads_users = "SELECT * FROM users"
+# users = execute_query_read_table(con, reads_users)
+#
+# for user in users:
+#     print(user)
+
+# def execute_query_read_table(connection, query):
+#     cursor = connection.cursor()
+#     try:
+#         cursor.execute(query)
+#         result = cursor.fetchall()
+#         return result
+#     except OperationalError as e:
+#         print(f"The error '{e}' occurred")
+#
+#
+# # reads_users = """
+# # SELECT
+# #   users.name,
+# #   posts.description
+# # FROM
+# #   users
+# # INNER JOIN posts ON users.id = posts.user_id
+# # """
+#
+# reads_users = """
+# SELECT
+#   users.name,
+#   users.age,
+#   description as Post,
+#   COUNT(likes.id) as Likes
+# FROM
+#   likes,
+#   posts,
+#   users
+# WHERE
+#   users.id = posts.user_id
+#   AND
+#   posts.id = likes.post_id
+# GROUP BY
+#   users.name,
+#   users.age,
+#   posts.description,
+#   likes.post_id
+# """
+# users = execute_query_read_table(con, reads_users)
+#
+# for user in users:
+#     print(user)
+
+
+# def execute_query_update(connection):
+#     cursor = connection.cursor()
+#     try:
+#         cursor.execute("UPDATE posts SET description = 'Wow it is amazing picture on the wall' WHERE id = 2")
+#         connection.commit()
+#     except OperationalError as e:
+#         print(f"The error '{e}' occurred")
+#
+# execute_query_update(con)
+
+def execute_query_delete(connection):
     cursor = connection.cursor()
     try:
-        cursor.execute(query)
-        result = cursor.fetchall()
-        return result
+        cursor.execute("DELETE FROM likes WHERE id = 2")
+        connection.commit()
     except OperationalError as e:
         print(f"The error '{e}' occurred")
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+            print("Connection with PostgreSQL closed")
 
-
-reads_users = "SELECT * FROM users"
-users = execute_query_read_table(con, reads_users)
-
-for user in users:
-    print(user)
+execute_query_delete(con)
