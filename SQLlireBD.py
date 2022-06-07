@@ -128,19 +128,78 @@ connect = create_connection("sqlsm.sqlite3")
 # execute_query(connect, create_comments)
 # execute_query(connect, create_likes)
 
-def execute_select(connection, query):
+# def execute_select(connection, query):
+#     cursor = connection.cursor()
+#
+#     try:
+#         cursor.execute(query)
+#         result = cursor.fetchall()
+#         return result
+#     except Error as e:
+#         print(f'The error {e} occurred')
+# execute_tables_users = "SELECT * FROM users"
+# result_user = execute_select(connect, execute_tables_users)
+#
+# for user in result_user:
+#     print(user, '===========')
+
+
+def execute_select_join(connection, query):
     cursor = connection.cursor()
 
     try:
         cursor.execute(query)
         result = cursor.fetchall()
+        column_names = [desk[0] for desk in cursor.description]
+        print(column_names)
         return result
     except Error as e:
         print(f'The error {e} occurred')
-execute_tables_users = "SELECT * FROM users"
-result_user = execute_select(connect, execute_tables_users)
+
+
+# execute_tables_users = """
+# SELECT
+# users.id,
+# users.name,
+# users.age,
+# posts.description,
+# posts.title
+# FROM
+# users
+# INNER JOIN posts ON users.id = posts.user_id
+#
+# """
+
+# execute_tables_users_comment = """
+# SELECT
+# users.id,
+# users.name,
+# posts.description,
+# comments.text as comment
+# FROM
+# users
+# INNER JOIN posts ON users.id = posts.user_id
+# INNER JOIN comments ON users.id = comments.user_id
+# """
+
+execute_tables_users_comment = """
+SELECT
+  users.name,
+  users.age,
+  description as Post,
+  COUNT(likes.id) as Likes
+FROM
+  likes,
+  posts,
+  users
+WHERE
+  users.id = posts.user_id
+  AND   
+  posts.id = likes.post_id
+GROUP BY
+  likes.post_id
+"""
+result_user = execute_select_join(connect, execute_tables_users_comment)
 
 for user in result_user:
     print(user, '===========')
-
-
