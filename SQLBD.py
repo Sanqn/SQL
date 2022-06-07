@@ -210,6 +210,22 @@ connection = create_connection("localhost", "admin", "root", "new_app")
 #
 # execute_query_likes(connection)
 
+# def execute_query_read_table(connection, query):
+#     cursor = connection.cursor()
+#     try:
+#         cursor.execute(query)
+#         result = cursor.fetchall()
+#         return result
+#     except Error as e:
+#         print(f"The error '{e}' occurred")
+#
+#
+# reads_users = "SELECT * FROM users"
+# users = execute_query_read_table(connection, reads_users)
+#
+# for user in users:
+#     print(user)
+
 def execute_query_read_table(connection, query):
     cursor = connection.cursor()
     try:
@@ -220,7 +236,31 @@ def execute_query_read_table(connection, query):
         print(f"The error '{e}' occurred")
 
 
-reads_users = "SELECT * FROM users"
+# reads_users = """
+# SELECT
+#   users.name,
+#   posts.description,
+#   COUNT(likes.id) as likes
+# FROM
+#   users,
+#   posts,
+#   likes
+# WHERE
+#   users.id = posts.user_id
+# AND
+#   posts.id = likes.post_id
+# GROUP BY
+#   likes.post_id
+# """
+
+reads_users = """
+SELECT
+  users.name,
+  posts.description
+FROM
+  users
+INNER JOIN posts ON users.id = posts.user_id
+"""
 users = execute_query_read_table(connection, reads_users)
 
 for user in users:
