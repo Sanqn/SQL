@@ -38,3 +38,25 @@ for i in users.find({"age": {"$gt": 16}}):
 
 for i in users.find({"name": {"$regex": "^J"}}):
     print(i, "$regex--------")
+# Сортировка
+
+for i in users.find().sort("name"):
+    print(i)
+
+for i in users.find().limit(1):
+    print(i, "lllliiiiiiiiiiiiiimit")
+
+# user = {
+#     "name": "Alex",
+#     "age": 38,
+#     "sex": "male",
+#     "nationality": "Belarus"
+# }
+#
+# users.insert_one(user)
+
+# users.update_one({"name": "John"}, {"$set": {"nationality": "India"}})
+
+
+# users.delete_one({"name": "Alex"})
+
