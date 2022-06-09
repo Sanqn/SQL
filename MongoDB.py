@@ -1,6 +1,6 @@
 import pymongo
 
-client = pymongo.MongoClient("mongodb://localhost:27017/new_app")
+client = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = client["new_app"]
 users = mydb.users
 
@@ -55,7 +55,7 @@ for i in users.find().limit(1):
 #
 # users.insert_one(user)
 
-# users.update_one({"name": "John"}, {"$set": {"nationality": "India"}})
+## users.update_one({"name": "John"}, {"$set": {"nationality": "India"}})
 
 
 # users.delete_one({"name": "Alex"})
