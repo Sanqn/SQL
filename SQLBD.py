@@ -17,14 +17,14 @@ from mysql.connector import connect, Error
 #   print(x)
 
 
-def create_connection(host_name, user_name, user_password, db_name):
+def create_connection(host_name, user_name, user_password,):
     connection = None
     try:
         connection = mysql.connector.connect(
             host=host_name,
             user=user_name,
             passwd=user_password,
-            database=db_name
+            # database=db_name
         )
         print("Connection to MySQL DB successful")
     except Error as e:
@@ -32,21 +32,21 @@ def create_connection(host_name, user_name, user_password, db_name):
     return connection
 
 
-connection = create_connection("localhost", "admin", "root", "new_app")
+connection = create_connection("localhost", "admin", "root")
 
 
-#
-#
-# # def create_database(connection):
-# #     cursor = connection.cursor()
-# #     try:
-# #         cursor.execute("CREATE DATABASE new_app")
-# #         print("Database created successfully")
-# #     except Error as e:
-# #         print(f"The error '{e}' occurred")
-# #
-# #
-# # create_database(connection)
+
+
+def create_database(connection):
+    cursor = connection.cursor()
+    try:
+        cursor.execute("CREATE DATABASE flask_db")
+        print("Database created successfully")
+    except Error as e:
+        print(f"The error '{e}' occurred")
+
+
+create_database(connection)
 #
 #
 # def execute_query(connection, query):
@@ -277,17 +277,17 @@ connection = create_connection("localhost", "admin", "root", "new_app")
 #
 # execute_query_update(connection)
 
-def execute_query_delete(connection):
-    cursor = connection.cursor()
-    try:
-        cursor.execute("DELETE FROM likes WHERE id = 2")
-        connection.commit()
-    except Error as e:
-        print(f"The error '{e}' occurred")
-    finally:
-        if connection:
-            cursor.close()
-            connection.close()
-            print("Connection with MySQL closed")
-
-execute_query_delete(connection)
+# def execute_query_delete(connection):
+#     cursor = connection.cursor()
+#     try:
+#         cursor.execute("DELETE FROM likes WHERE id = 2")
+#         connection.commit()
+#     except Error as e:
+#         print(f"The error '{e}' occurred")
+#     finally:
+#         if connection:
+#             cursor.close()
+#             connection.close()
+#             print("Connection with MySQL closed")
+#
+# execute_query_delete(connection)

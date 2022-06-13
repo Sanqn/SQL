@@ -15,7 +15,7 @@ from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 # # print(connection.get_dsn_parameters(), "\n")
 # # Выполнение SQL-запроса
 # mycursor.execute("SELECT column_name FROM information_schema.columns WHERE table_name = 'posts';")
-# # Получить результат
+# # Получить результатn
 # for x in mycursor:
 #   print(x)
 
